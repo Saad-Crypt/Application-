@@ -14,12 +14,43 @@
 .target{font-size:13px;color:var(--muted);text-align:center;margin:0 0 9px}.progress{height:7px;background:#edf1eb;border-radius:10px;overflow:hidden;margin:0 0 12px}.progress span{display:block;height:100%;background:linear-gradient(90deg,#c49a45,#e4c779);width:0%;transition:width .2s}
 .counter{display:flex;align-items:center;justify-content:space-between;gap:9px;border-top:1px solid var(--line);padding-top:11px}.count{font:700 25px Tahoma;color:var(--green);min-width:48px;text-align:center}.counter .tap{background:linear-gradient(135deg,#1d5949,#2c7962);color:#fff;font-size:16px;min-width:110px;padding:10px 16px}.counter .reset{font-size:13px;padding:8px 10px}
 footer{text-align:center;color:var(--muted);font-size:13px;margin:22px 0 4px}
+
+.daily{background:linear-gradient(145deg,#fffdf7,#f8f2e5);border:1px solid #e7d9b8;border-radius:22px;padding:16px;margin:14px 0 20px;box-shadow:0 7px 20px #5b48200d}
+.daily-head{text-align:center}.daily h2{font-size:22px;margin:4px 0;color:#76551c}.daily-meta{color:#74664c;font-size:14px;margin:6px 0 12px}
+.daily-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.daily select,.daily a{font:inherit;border:1px solid #d8c89f;border-radius:12px;padding:9px 12px;background:#fff;color:#604719;text-decoration:none}
+.daily iframe{width:100%;height:62vh;min-height:420px;border:1px solid #e7dcc2;border-radius:14px;background:#fff}
+.daily-note{font-size:12px;color:#80745e;text-align:center;margin:9px 0 0}
+
 @media(max-width:420px){body{padding:10px 8px}.hero h1{font-size:25px}.text{font-size:20px}.dhikr{padding:13px}.counter .tap{min-width:96px;padding:9px}}
 </style></head>
 <body><main class="wrap">
 <header class="hero"><img class="app-icon" src="icon.jpg" alt="أيقونة التطبيق"><h1>الورد الفردي</h1><p>أوراد الذكر والصلاة على سيدنا محمد ﷺ</p></header>
 <section class="summary"><div class="pill"><b id="total">0</b><span>مجموع الأذكار</span></div><div class="pill"><b id="done">0</b><span>أوراد اكتملت</span></div><div class="pill"><b>10</b><span>أوراد</span></div></section>
 <div class="tools"><button id="smaller" aria-label="تصغير الخط">A−</button><button id="larger" aria-label="تكبير الخط">A+</button><button id="resetAll" class="primary">تصفير الجميع</button></div>
+
+<section class="daily" aria-labelledby="dailyTitle">
+  <div class="daily-head">
+    <h2 id="dailyTitle">حزب دلائل الخيرات</h2>
+    <div class="daily-meta"><strong id="dailyDay">—</strong> · <span id="dailyDate">—</span></div>
+    <div class="daily-actions">
+      <label for="hizbSelect">اختيار اليوم:</label>
+      <select id="hizbSelect" aria-label="اختيار حزب اليوم">
+        <option value="1">الاثنين — الحزب الأول</option>
+        <option value="2">الثلاثاء — الحزب الثاني</option>
+        <option value="3">الأربعاء — الحزب الثالث</option>
+        <option value="4">الخميس — الحزب الرابع</option>
+        <option value="5">الجمعة — الحزب الخامس</option>
+        <option value="6">السبت — الحزب السادس</option>
+        <option value="7">الأحد — الحزب السابع</option>
+      </select>
+      <a id="openHizb" href="https://www.zikralhabeeb.com/dalail/hizb-1/" target="_blank" rel="noopener">فتح الحزب في صفحة مستقلة</a>
+    </div>
+  </div>
+  <iframe id="hizbFrame" title="نص حزب دلائل الخيرات لليوم" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.zikralhabeeb.com/dalail/hizb-1/"></iframe>
+  <p class="daily-note">يُحمَّل نص الحزب من مصدره الإلكتروني؛ يلزم اتصال بالإنترنت لعرضه داخل التطبيق.</p>
+</section>
+
 <section class="list" id="list"></section><footer>تُحفظ الأعداد تلقائيا على هذا الجهاز</footer></main>
 <script>
 (()=>{const items=[
@@ -36,6 +67,32 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin:22px 0 4px}
 ];
 const key='alwird-individual-v2';let counts=items.map(()=>0),font=22;
 try{const saved=JSON.parse(localStorage.getItem(key));if(Array.isArray(saved)&&saved.length===items.length)counts=saved.map(x=>Math.max(0,Number(x)||0))}catch(e){}
+
+const hizbDays=[
+ {day:'الاثنين',hizb:1,url:'https://www.zikralhabeeb.com/dalail/hizb-1/'},
+ {day:'الثلاثاء',hizb:2,url:'https://www.zikralhabeeb.com/dalail/hizb-2/'},
+ {day:'الأربعاء',hizb:3,url:'https://www.zikralhabeeb.com/dalail/hizb-3/'},
+ {day:'الخميس',hizb:4,url:'https://www.zikralhabeeb.com/dalail/hizb-4/'},
+ {day:'الجمعة',hizb:5,url:'https://www.zikralhabeeb.com/dalail/hizb-5/'},
+ {day:'السبت',hizb:6,url:'https://www.zikralhabeeb.com/dalail/hizb-6/'},
+ {day:'الأحد',hizb:7,url:'https://www.zikralhabeeb.com/dalail/hizb-7/'}
+];
+const hizbSelect=document.getElementById('hizbSelect');
+const hizbFrame=document.getElementById('hizbFrame');
+const openHizb=document.getElementById('openHizb');
+function showHizb(number){
+ const item=hizbDays.find(x=>x.hizb===Number(number))||hizbDays[0];
+ document.getElementById('dailyDay').textContent=item.day+' — الحزب '+['الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع'][item.hizb-1];
+ hizbFrame.src=item.url;openHizb.href=item.url;hizbSelect.value=String(item.hizb);
+}
+function updateToday(){
+ const now=new Date(), map=[6,0,1,2,3,4,5], item=hizbDays[map[now.getDay()]];
+ document.getElementById('dailyDate').textContent=new Intl.DateTimeFormat('ar-MA',{year:'numeric',month:'long',day:'numeric'}).format(now);
+ showHizb(item.hizb);
+}
+hizbSelect.addEventListener('change',()=>showHizb(hizbSelect.value));
+updateToday();
+
 const list=document.getElementById('list');
 items.forEach((it,i)=>{const card=document.createElement('article');card.className='dhikr';card.innerHTML='<div class="dhikr-top"><span class="num">'+(i+1)+'</span><h2></h2></div><div class="text"></div><p class="target"></p><div class="progress"><span></span></div><div class="counter"><button class="reset">إعادة</button><span class="count">0</span><button class="tap">ذكر +</button></div>';card.querySelector('h2').textContent=it[0];card.querySelector('.text').textContent=it[1];card.querySelector('.target').textContent='العدد المطلوب: '+it[2].toLocaleString('en-US');card.querySelector('.tap').addEventListener('click',()=>{counts[i]=Math.min(it[2],counts[i]+1);save();if(navigator.vibrate)navigator.vibrate(10)});card.querySelector('.reset').addEventListener('click',()=>{counts[i]=0;save()});list.appendChild(card)});
 const cards=[...document.querySelectorAll('.dhikr')];
