@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123d35"><title>عداد الأذكار</title>
+<style>
+:root{--bg:#f3f6f1;--card:#fff;--ink:#173b32;--muted:#718078;--gold:#c49a45;--line:#e5eae3;--green:#1d5949}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#e4eee5,var(--bg) 48%);color:var(--ink);font-family:"Noto Naskh Arabic","Amiri","Tahoma",serif;padding:20px 14px 38px}
+.wrap{max-width:760px;margin:auto}.hero{text-align:center;padding:24px 14px 20px;background:linear-gradient(135deg,#123d35,#236452);color:#fff;border-radius:24px;box-shadow:0 12px 28px #123d3526}
+.logo{font-size:30px;color:#f1d18b}.hero h1{font-size:29px;margin:4px 0}.hero p{margin:5px 0 0;color:#d8e8df;font-size:15px}
+.summary{display:flex;justify-content:center;gap:10px;margin:16px 0}.pill{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 18px;text-align:center;min-width:120px;box-shadow:0 4px 14px #183b3010}.pill b{display:block;font-size:24px;color:var(--green)}.pill span{font-size:13px;color:var(--muted)}
+.tools{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 18px}.tools button,.counter button{border:0;border-radius:12px;padding:9px 14px;background:#e4eee7;color:var(--green);font:inherit;cursor:pointer}.tools button.primary{background:var(--green);color:white}.tools button:active,.counter button:active{transform:scale(.97)}
+.list{display:grid;gap:13px}.dhikr{background:var(--card);border:1px solid var(--line);border-radius:19px;padding:17px 17px 14px;box-shadow:0 5px 18px #183b300b}.dhikr-top{display:flex;align-items:center;gap:10px;margin-bottom:9px}.num{width:31px;height:31px;flex:0 0 31px;border-radius:50%;display:grid;place-items:center;background:#f6edda;color:#936d27;font:bold 15px Tahoma}.dhikr h2{font-size:16px;margin:0;color:var(--muted);font-weight:600}.text{font-size:22px;line-height:2.05;text-align:center;margin:5px 0 14px;color:var(--ink)}
+.counter{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:12px}.count{font:700 28px Tahoma;color:var(--green);min-width:48px;text-align:center}.counter .tap{background:linear-gradient(135deg,#1d5949,#2c7962);color:#fff;font-size:17px;min-width:118px;padding:10px 18px}.counter .reset{font-size:13px;padding:8px 11px}
+footer{text-align:center;color:var(--muted);font-size:13px;margin:22px 0 4px}
+@media(max-width:420px){body{padding:12px 10px}.hero h1{font-size:25px}.text{font-size:20px}.dhikr{padding:14px}.counter .tap{min-width:105px}}
+</style></head>
+<body><main class="wrap">
+<header class="hero"><div class="logo">۞</div><h1>عداد الأذكار</h1><p>اذكر الله بقلب حاضر ولسان ذاكر</p></header>
+<section class="summary"><div class="pill"><b id="total">0</b><span>مجموع التسبيحات</span></div><div class="pill"><b>5</b><span>أذكار</span></div></section>
+<div class="tools"><button id="smaller" aria-label="تصغير الخط">A−</button><button id="larger" aria-label="تكبير الخط">A+</button><button id="resetAll" class="primary">تصفير الجميع</button></div>
+<section class="list" id="list">
+<article class="dhikr" data-id="0"><div class="dhikr-top"><span class="num">1</span><h2>الذكر الأول</h2></div><div class="text">لا إله إلا الله</div><div class="counter"><button class="reset">إعادة</button><span class="count">0</span><button class="tap">تسبيح +</button></div></article>
+<article class="dhikr" data-id="1"><div class="dhikr-top"><span class="num">2</span><h2>الصلاة على النبي وآله</h2></div><div class="text">اللهم صل على سيدنا محمد وآله</div><div class="counter"><button class="reset">إعادة</button><span class="count">0</span><button class="tap">تسبيح +</button></div></article>
+<article class="dhikr" data-id="2"><div class="dhikr-top"><span class="num">3</span><h2>الصلاة على مولاتنا فاطمة الزهراء</h2></div><div class="text">اللهم صل على مولاتنا فاطمة الزهراء وأبيها وبعلها وبنيها والسر المستودع فيها، عدد ما أحاط به علمك.</div><div class="counter"><button class="reset">إعادة</button><span class="count">0</span><button class="tap">تسبيح +</button></div></article>
+<article class="dhikr" data-id="3"><div class="dhikr-top"><span class="num">4</span><h2>الصلاة النورانية</h2></div><div class="text">اللهم صل على سيدنا محمد الذي ملأت قلبه من جلالك وعينه من جمالك فأصبح فرحا مؤيدا منصورا، وعلى آله وصحبه وسلم تسليما والحمد لله على ذلك.</div><div class="counter"><button class="reset">إعادة</button><span class="count">0</span><button class="tap">تسبيح +</button></div></article>
+<article class="dhikr" data-id="4"><div class="dhikr-top"><span class="num">5</span><h2>صلاة طب القلوب</h2></div><div class="text">اللهم صل على سيدنا محمد طب القلوب ودواءها، وعافية الأبدان وشفاءها، ونور الأبصار وضياءها وعلى آله وصحبه وسلم.</div><div class="counter"><button class="reset">إعادة</button><span class="count">0</span><button class="tap">تسبيح +</button></div></article>
+</section><footer>تُحفظ الأعداد تلقائيا على هذا الجهاز</footer></main>
+<script>
+(()=>{const cards=[...document.querySelectorAll('.dhikr')],key='adhkar-counts-v1';let counts=[0,0,0,0,0],font=22;
+try{const saved=JSON.parse(localStorage.getItem(key));if(Array.isArray(saved)&&saved.length===5)counts=saved.map(x=>Math.max(0,Number(x)||0))}catch(e){}
+function save(){localStorage.setItem(key,JSON.stringify(counts));render()}
+function render(){let total=0;cards.forEach((card,i)=>{card.querySelector('.count').textContent=counts[i];total+=counts[i]});document.getElementById('total').textContent=total}
+cards.forEach((card,i)=>{card.querySelector('.tap').addEventListener('click',()=>{counts[i]++;save();if(navigator.vibrate)navigator.vibrate(12)});card.querySelector('.reset').addEventListener('click',()=>{counts[i]=0;save()})});
+document.getElementById('resetAll').addEventListener('click',()=>{if(confirm('هل تريد تصفير جميع العدادات؟')){counts=[0,0,0,0,0];save()}});
+document.getElementById('larger').addEventListener('click',()=>{font=Math.min(34,font+2);document.querySelectorAll('.text').forEach(x=>x.style.fontSize=font+'px')});
+document.getElementById('smaller').addEventListener('click',()=>{font=Math.max(16,font-2);document.querySelectorAll('.text').forEach(x=>x.style.fontSize=font+'px')});
+render();
+})();
+</script></body></html>
