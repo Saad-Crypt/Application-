@@ -23,6 +23,30 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin:22px 0 4px}
 .daily-note{font-size:12px;color:#80745e;text-align:center;margin:9px 0 0}
 
 @media(max-width:420px){body{padding:10px 8px}.hero h1{font-size:25px}.text{font-size:20px}.dhikr{padding:13px}.counter .tap{min-width:96px;padding:9px}}
+
+/* Quran and reader enhancements */
+.reader-tools{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.reader-tools button,.reader-tools select,.reader-tools input,.custom-form input{font:inherit;border:1px solid var(--line);border-radius:11px;padding:8px 10px;background:#fff;color:var(--ink)}
+.quran-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:15px;margin:16px 0;box-shadow:0 5px 18px #183b300b}
+.quran-card h2{margin:3px 0 10px;text-align:center;color:var(--green)}
+.quran-status{font-size:13px;text-align:center;color:var(--muted);margin:8px}
+.quran-text{max-height:68vh;overflow:auto;white-space:pre-wrap;line-height:2.35;text-align:justify;font-size:25px;padding:18px;background:#fff;border:1px solid var(--line);border-radius:15px;color:#24392f}
+.quran-text .surah-heading{display:block;text-align:center;font-size:.85em;color:#946d2a;margin:15px 0 8px}
+.quran-text .ayah{display:inline}
+.reader-fullscreen{position:fixed!important;inset:0!important;z-index:99999!important;width:100vw!important;height:100dvh!important;max-height:none!important;margin:0!important;border-radius:0!important;padding:14px!important;overflow:auto!important;background:var(--reader-bg,#fff)!important}
+.reader-fullscreen .quran-text,.reader-fullscreen .hizb-text{max-height:none;height:calc(100dvh - 150px);background:var(--reader-bg,#fff);color:var(--reader-ink,#263c32);border-color:var(--reader-border,#e7dcc2)}
+.reader-fullscreen .reader-tools{position:sticky;top:0;background:var(--reader-bg,#fff);z-index:2;padding:6px}
+.reader-close{display:none}
+.reader-fullscreen .reader-close{display:inline-block!important}
+.custom-form{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.custom-form input[type=text]{flex:1;min-width:170px}
+.custom-list{display:grid;gap:9px}
+.custom-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.custom-card .custom-count{font-size:22px;font-weight:bold;text-align:center;color:var(--green)}
+.custom-card .custom-actions{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+.custom-card button{border:0;border-radius:10px;padding:8px 13px;background:#e4eee7;color:var(--green);font:inherit}
+.custom-card button.add{background:var(--green);color:white}
+
 </style></head>
 <body><main class="wrap">
 <header class="hero"><img class="app-icon" src="icon.jpg" alt="أيقونة التطبيق"><h1>الورد الفردي</h1><p>أوراد الذكر والصلاة على سيدنا محمد ﷺ</p></header>
@@ -48,6 +72,44 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin:22px 0 4px}
     </div>
   </div>
   <div id="hizbText" class="hizb-text" role="article" aria-live="polite"></div><p class="daily-note">النص الكامل للأحزاب السبعة محفوظ داخل التطبيق، ويمكن قراءته دون اتصال بالإنترنت.</p>
+</section>
+
+
+<section class="quran-card" id="quranCard">
+  <h2>القرآن الكريم — المصحف المحمدي المغربي</h2>
+  <p class="quran-status">رواية ورش عن نافع من طريق الأزرق · الرسم والترقيم المغربي</p>
+  <div class="reader-tools">
+    <label for="quranHizb">الحزب:</label>
+    <select id="quranHizb" aria-label="اختر حزب القرآن"></select>
+    <button id="quranPrev">السابق</button><button id="quranNext">التالي</button>
+    <button id="quranFull">ملء الشاشة</button><button id="quranClose" class="reader-close">إغلاق</button>
+  </div>
+  <div class="reader-tools">
+    <input id="quranSearch" type="search" placeholder="ابحث في القرآن..." aria-label="البحث في القرآن">
+    <button id="quranSearchBtn">بحث</button>
+    <button id="quranBookmark">حفظ الموضع</button>
+    <button id="quranResume">آخر موضع</button>
+  </div>
+  <div class="reader-tools">
+    <label>الخط <select id="readerFont"><option value="Noto Naskh Arabic,Amiri,Tahoma,serif">نسخي</option><option value="Amiri,serif">أميري</option><option value="Tahoma,sans-serif">Tahoma</option><option value="serif">Serif</option></select></label>
+    <label>الحجم <button id="readerSmaller">A−</button> <button id="readerLarger">A+</button></label>
+    <label>الخلفية <select id="readerBackground"><option value="#fff">أبيض</option><option value="#fbf3df">ورقي</option><option value="#edf4ed">أخضر فاتح</option><option value="#202923">ليلي</option></select></label>
+    <label>الإطار <select id="readerFrame"><option value="1px solid #d8c89f">ذهبي</option><option value="1px solid #d8dfd8">هادئ</option><option value="2px solid #1d5949">أخضر</option><option value="none">بدون</option></select></label>
+  </div>
+  <div id="quranStatus" class="quran-status" role="status" aria-live="polite">سيُحمّل المصحف كاملا عند أول تشغيل يحتاج فيه التطبيق إلى الاتصال بالإنترنت.</div>
+  <div id="quranText" class="quran-text" role="article">جارٍ تجهيز قارئ القرآن...</div>
+  <p class="daily-note">بيانات النص والفهارس: مشروع بيانات المصحف المحمدي المغربي، بإذن ترخيص CC BY 4.0، مع الإشارة إلى المصدر داخل التطبيق.</p>
+</section>
+<section class="quran-card" id="customSection">
+  <h2>أذكاري الخاصة</h2>
+  <form class="custom-form" id="customForm">
+    <input id="customName" type="text" placeholder="عنوان الذكر (اختياري)" maxlength="80">
+    <input id="customText" type="text" placeholder="اكتب الذكر الذي تريد إضافته" required maxlength="1000">
+    <input id="customTarget" type="number" min="1" max="1000000" value="100" aria-label="العدد المطلوب" style="width:95px">
+    <button class="primary" type="submit">إضافة الذكر</button>
+  </form>
+  <div id="customList" class="custom-list"></div>
+  <p class="daily-note">تُحفظ الأذكار التي تضيفها وأعدادها على جهازك، ولا تؤثر في الأوراد العشرة الأصلية.</p>
 </section>
 
 <section class="list" id="list"></section><footer>تُحفظ الأعداد تلقائيا على هذا الجهاز</footer></main>
@@ -94,5 +156,32 @@ document.getElementById('resetAll').addEventListener('click',()=>{if(confirm('ه
 document.getElementById('larger').addEventListener('click',()=>{font=Math.min(36,font+2);document.querySelectorAll('.text').forEach(x=>x.style.fontSize=font+'px');document.getElementById('hizbText').style.fontSize=font+'px'});
 document.getElementById('smaller').addEventListener('click',()=>{font=Math.max(16,font-2);document.querySelectorAll('.text').forEach(x=>x.style.fontSize=font+'px')});
 render();
+
+// --- Additional Quran reader, persistent custom adhkar, and reader settings ---
+const quranBase='https://cdn.jsdelivr.net/gh/ELAHMADI/ma-mushaf-muhammadi-data@v1/data/';
+const quranDbName='mushaf-muhammadi-warsh-v1';
+let quranVerses=null,quranHizbs=null,currentQuranHizb=1,readerSize=25;
+const quranStatus=document.getElementById('quranStatus'),quranText=document.getElementById('quranText');
+function openQuranDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(quranDbName,1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('data'))db.createObjectStore('data')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function dbGet(key){const db=await openQuranDB();return new Promise((resolve,reject)=>{const tx=db.transaction('data','readonly'),r=tx.objectStore('data').get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+async function dbPut(key,value){const db=await openQuranDB();return new Promise((resolve,reject)=>{const tx=db.transaction('data','readwrite');tx.objectStore('data').put(value,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
+async function getDataset(name){const cached=await dbGet(name).catch(()=>null);if(cached)return cached;quranStatus.textContent='يتم تنزيل '+(name==='quran_muhammadi.json'?'نص المصحف كاملا':'فهرس الأحزاب')+' لأول مرة...';const response=await fetch(quranBase+name,{cache:'no-cache'});if(!response.ok)throw new Error('HTTP '+response.status);const data=await response.json();if(!Array.isArray(data))throw new Error('صيغة بيانات غير صحيحة');await dbPut(name,data);return data}
+function setQuranStatus(t){quranStatus.textContent=t}
+function fillHizbSelect(){const sel=document.getElementById('quranHizb');sel.innerHTML='';for(let i=1;i<=60;i++){const o=document.createElement('option');o.value=i;o.textContent='الحزب '+i;sel.appendChild(o)}sel.value=currentQuranHizb}
+function renderQuranHizb(n){if(!quranVerses||!quranHizbs)return;currentQuranHizb=Math.min(60,Math.max(1,Number(n)||1));document.getElementById('quranHizb').value=currentQuranHizb;const h=quranHizbs.find(x=>x.number===currentQuranHizb);if(!h)return;const start=quranVerses.findIndex(v=>v.sura===h.start.sura&&v.aya===h.start.aya),end=quranVerses.findIndex(v=>v.sura===h.end.sura&&v.aya===h.end.aya);if(start<0||end<start){setQuranStatus('تعذر تحديد حدود الحزب في بيانات المصحف.');return}let html='',lastSurah=0;for(let i=start;i<=end;i++){const v=quranVerses[i];if(v.sura!==lastSurah){lastSurah=v.sura;html+='<span class="surah-heading">سورة '+(surahNames[v.sura]||('رقم '+v.sura))+'</span>'}let t=v.text||'';if(i===start&&h.start.char_offset)t=t.slice(h.start.char_offset);if(i===end&&Number.isInteger(h.end.char_offset))t=t.slice(0,h.end.char_offset+1);html+='<span class="ayah"></span> ';const safe=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');html+='<span class="ayah">'+safe+' ۞</span> '}quranText.innerHTML=html;quranText.style.fontSize=readerSize+'px';setQuranStatus('الحزب '+currentQuranHizb+' · الجزء '+h.juz+' · الصفحات '+h.first_page_mushafma+'–'+h.last_page_mushafma+' · المصحف المحمدي المغربي')}
+const surahNames={1:'الفاتحة',2:'البقرة',3:'آل عمران',4:'النساء',5:'المائدة',6:'الأنعام',7:'الأعراف',8:'الأنفال',9:'التوبة',10:'يونس',11:'هود',12:'يوسف',13:'الرعد',14:'إبراهيم',15:'الحجر',16:'النحل',17:'الإسراء',18:'الكهف',19:'مريم',20:'طه',21:'الأنبياء',22:'الحج',23:'المؤمنون',24:'النور',25:'الفرقان',26:'الشعراء',27:'النمل',28:'القصص',29:'العنكبوت',30:'الروم',31:'لقمان',32:'السجدة',33:'الأحزاب',34:'سبأ',35:'فاطر',36:'يس',37:'الصافات',38:'ص',39:'الزمر',40:'غافر',41:'فصلت',42:'الشورى',43:'الزخرف',44:'الدخان',45:'الجاثية',46:'الأحقاف',47:'محمد',48:'الفتح',49:'الحجرات',50:'ق',51:'الذاريات',52:'الطور',53:'النجم',54:'القمر',55:'الرحمن',56:'الواقعة',57:'الحديد',58:'المجادلة',59:'الحشر',60:'الممتحنة',61:'الصف',62:'الجمعة',63:'المنافقون',64:'التغابن',65:'الطلاق',66:'التحريم',67:'الملك',68:'القلم',69:'الحاقة',70:'المعارج',71:'نوح',72:'الجن',73:'المزمل',74:'المدثر',75:'القيامة',76:'الإنسان',77:'المرسلات',78:'النبأ',79:'النازعات',80:'عبس',81:'التكوير',82:'الانفطار',83:'المطففين',84:'الانشقاق',85:'البروج',86:'الطارق',87:'الأعلى',88:'الغاشية',89:'الفجر',90:'البلد',91:'الشمس',92:'الليل',93:'الضحى',94:'الشرح',95:'التين',96:'العلق',97:'القدر',98:'البينة',99:'الزلزلة',100:'العاديات',101:'القارعة',102:'التكاثر',103:'العصر',104:'الهمزة',105:'الفيل',106:'قريش',107:'الماعون',108:'الكوثر',109:'الكافرون',110:'النصر',111:'المسد',112:'الإخلاص',113:'الفلق',114:'الناس'};
+async function initQuran(){fillHizbSelect();try{quranVerses=await getDataset('quran_muhammadi.json');if(quranVerses.length!==6214)throw new Error('عدد الآيات لا يطابق بيانات المصحف المحمدي (6214)');quranHizbs=await getDataset('hizbs.json');if(quranHizbs.length!==60)throw new Error('فهرس الأحزاب غير مكتمل');renderQuranHizb(currentQuranHizb);document.getElementById('quranHizb').addEventListener('change',e=>renderQuranHizb(e.target.value));document.getElementById('quranPrev').onclick=()=>renderQuranHizb(currentQuranHizb-1);document.getElementById('quranNext').onclick=()=>renderQuranHizb(currentQuranHizb+1);document.getElementById('quranBookmark').onclick=()=>{localStorage.setItem('mushaf-bookmark',String(currentQuranHizb));setQuranStatus('تم حفظ موضع القراءة: الحزب '+currentQuranHizb)};document.getElementById('quranResume').onclick=()=>renderQuranHizb(Number(localStorage.getItem('mushaf-bookmark'))||1);document.getElementById('quranSearchBtn').onclick=searchQuran;document.getElementById('quranSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchQuran()});setQuranStatus('تم حفظ المصحف كاملا على هذا الجهاز، ويمكن قراءته دون إنترنت.')}catch(e){setQuranStatus('تعذر تحميل المصحف الآن. تحقق من الاتصال بالإنترنت ثم أعد فتح التطبيق. ('+e.message+')');quranText.textContent='يحتاج تنزيل المصحف لأول مرة إلى اتصال بالإنترنت. بعد اكتمال التنزيل سيعمل دون اتصال.'}}
+function searchQuran(){if(!quranVerses)return;const q=document.getElementById('quranSearch').value.trim().replace(/[ًٌٍَُِّْـ]/g,'');if(!q)return;const hits=quranVerses.filter(v=>(v.text_simple||v.text||'').replace(/[ًٌٍَُِّْـ]/g,'').includes(q)).slice(0,80);if(!hits.length){setQuranStatus('لم يُعثر على نتيجة.');return}let html='';for(const v of hits){html+='<div class="surah-heading">'+(surahNames[v.sura]||'')+' · الآية '+v.aya+' · الحزب '+v.hizb+'</div><span class="ayah">'+(v.text||'')+'</span><hr>'}quranText.innerHTML=html;setQuranStatus('نتائج البحث: '+hits.length+' (أول 80 نتيجة)')}
+function enterFullscreen(el){el.classList.add('reader-fullscreen');document.body.style.overflow='hidden'}
+function exitFullscreen(el){el.classList.remove('reader-fullscreen');document.body.style.overflow=''}
+document.getElementById('quranFull').onclick=()=>enterFullscreen(document.getElementById('quranCard'));document.getElementById('quranClose').onclick=()=>exitFullscreen(document.getElementById('quranCard'));
+const hizbCard=document.querySelector('.daily');const fullBtn=document.createElement('button');fullBtn.textContent='ملء الشاشة';fullBtn.onclick=()=>enterFullscreen(hizbCard);document.querySelector('.daily-actions').appendChild(fullBtn);const closeBtn=document.createElement('button');closeBtn.textContent='إغلاق';closeBtn.className='reader-close';closeBtn.onclick=()=>exitFullscreen(hizbCard);document.querySelector('.daily-actions').appendChild(closeBtn);
+function applyReaderSettings(){const bg=document.getElementById('readerBackground').value,frame=document.getElementById('readerFrame').value,fontFamily=document.getElementById('readerFont').value;[quranText,document.getElementById('hizbText')].forEach(el=>{el.style.background=bg;el.style.border=frame;el.style.fontFamily=fontFamily;el.style.fontSize=readerSize+'px';el.style.color=bg==='#202923'?'#f4f0e5':'#263c32'});document.documentElement.style.setProperty('--reader-bg',bg);document.documentElement.style.setProperty('--reader-ink',bg==='#202923'?'#f4f0e5':'#263c32');document.documentElement.style.setProperty('--reader-border',frame)}
+['readerFont','readerBackground','readerFrame'].forEach(id=>document.getElementById(id).addEventListener('change',applyReaderSettings));document.getElementById('readerLarger').onclick=()=>{readerSize=Math.min(42,readerSize+2);applyReaderSettings()};document.getElementById('readerSmaller').onclick=()=>{readerSize=Math.max(16,readerSize-2);applyReaderSettings()};
+let customAdhkar=[];try{customAdhkar=JSON.parse(localStorage.getItem('custom-adhkar-v1')||'[]');if(!Array.isArray(customAdhkar))customAdhkar=[]}catch(e){customAdhkar=[]}
+function saveCustom(){localStorage.setItem('custom-adhkar-v1',JSON.stringify(customAdhkar));renderCustom()}
+function renderCustom(){const root=document.getElementById('customList');root.innerHTML='';customAdhkar.forEach((x,i)=>{const card=document.createElement('div');card.className='custom-card';const title=document.createElement('strong');title.textContent=x.name||'ذكر مضاف';const txt=document.createElement('p');txt.textContent=x.text;const count=document.createElement('div');count.className='custom-count';count.textContent=x.count+' / '+x.target;const actions=document.createElement('div');actions.className='custom-actions';const add=document.createElement('button');add.className='add';add.textContent='ذكر +';add.onclick=()=>{x.count=Math.min(x.target,x.count+1);saveCustom()};const reset=document.createElement('button');reset.textContent='إعادة';reset.onclick=()=>{x.count=0;saveCustom()};const del=document.createElement('button');del.textContent='حذف';del.onclick=()=>{if(confirm('حذف هذا الذكر؟')){customAdhkar.splice(i,1);saveCustom()}};actions.append(add,reset,del);card.append(title,txt,count,actions);root.appendChild(card)})}
+document.getElementById('customForm').addEventListener('submit',e=>{e.preventDefault();const txt=document.getElementById('customText').value.trim();if(!txt)return;const target=Math.max(1,Math.min(1000000,Number(document.getElementById('customTarget').value)||100));customAdhkar.push({name:document.getElementById('customName').value.trim(),text:txt,target,count:0});e.target.reset();document.getElementById('customTarget').value=100;saveCustom()});renderCustom();initQuran();
+
 })();
 </script></body></html>
